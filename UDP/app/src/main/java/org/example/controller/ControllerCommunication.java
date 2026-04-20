@@ -3,7 +3,7 @@ package org.example.controller;
 import org.example.model.Client;
 
 public class ControllerCommunication {
-    
+
     private Client client;
 
     public void defineNameUser(String name) {
@@ -16,5 +16,9 @@ public class ControllerCommunication {
 
     public void sendMessage(String msg) {
         client.sendMessage(msg);
+    }
+
+    public void endCommunication() {
+        client.endConnection();
     }
 }

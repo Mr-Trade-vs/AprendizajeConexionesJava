@@ -1,21 +1,29 @@
 package org.example.model;
 
 public class Client {
+
     private String name;
-    private UDPConnection connection;
+    private UDPSender connection;
 
     public Client(String name) {
         this.name = name;
-        this.connection = UDPConnection.getInstance();
+        this.connection = UDPSender.getInstance();
     }
 
     public void startConnection(String ip, int port) {
-        this.connection.defineChannel(port, ip);
-        connection.run();
+        connection.defineChannel(port, ip);
+
+        UDPReceiver receiver = new UDPReceiver(connection.getSocket());
+        new Thread(receiver).start();
     }
 
     public void sendMessage(String msg) {
         connection.sendData(msg);
+    }
+
+    public void endConnection() {
+        connection.sendData("EXIT");
+        connection.close();
     }
 
     public String getName() {
